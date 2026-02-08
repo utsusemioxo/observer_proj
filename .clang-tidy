@@ -1,0 +1,30 @@
+---
+Checks: >
+    -*,
+    bugprone-*,
+    performance-*,
+    modernize-,
+    readability-*,
+    cppcoreguidelines-*,
+    -cppcoreguidelines-pro-type-vararg,
+    -cppcoreguidelines-no-mallic.
+    clang-analyzer-*,
+    # Performance specific
+    performance-no-automatic-move,
+    performance-no-int-to-ptr,
+    performance-inefficient-vector-operation,
+    # Modernity
+    modernize-use-nodiscard,
+    modernize-use-trailing-return-type,
+    modernize-use-override,
+    modernize-use-equals-default,
+    modernize-use-equals-delete
+
+CheckOptions:
+    - key:      performance-inefficient-vector-operation.EnableProto
+      value:    '1'
+    - key:      modernize-use-nodiscard.ReplacementString
+      value:    '[[nodiscard]]'
+
+WarningsAsErrors: 'performance-*,bugprone-*'
+---

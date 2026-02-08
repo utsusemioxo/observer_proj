@@ -1,0 +1,33 @@
+---
+Language: Cpp
+BasedOnStyle: LLVM
+Standard: Latest
+ColumnLimit: 120 # for long template/type names
+
+# Alignment (Crucial for data-oriented design and cache-line awareness)
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignConsecutiveMacros: true
+AlignTrailingComments: true
+
+# Braces (Attatch to keep more code on screen, common in low-latency codes)
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: Inline # Allow small getters to stay compact
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+
+# Modern C++ specific
+FixNamespaceComments: true
+IncludeBlocks: Regroup
+SortIncludes: true
+SeparateDefinitionBlocks: Always
+
+# Avoid accidental copied/moves by keeping constructor init lists clean
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 4
+PackConstructorInitializers: NextLine
+
+# Templates
+AlwaysBreakTemplateDeclarations: Yes
+---
