@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(COMMON_FLAGS "-Wall -Wextra -Wpedantic -march=native")
-set(DEBUG_FLAGS "-g -fsanitize=address -fno-omit-frame-pointer")
+set(DEBUG_FLAGS "-g -fsanitize=thread -fno-omit-frame-pointer")
 set(RELEASE_FLAGS "-O3 -flto=thin -fno-signed-zeros")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")

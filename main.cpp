@@ -1,6 +1,10 @@
+#include <chrono>
 #include <iostream>
 #include <list>
 #include <string>
+#include <atomic>
+#include <thread>
+#include <vector>
 
 class IObserver {
 public:
@@ -130,7 +134,51 @@ void ClientCode() {
     delete subject;
 }
 
+/** 
+ * Simulate multi-thread observers
+ */
+void ClientCodeMultiThread() {
+    std::atomic<bool> running{true};
+    Subject* subject = new Subject;
+
+    std::thread producer([&]() {
+        uint64_t msg_count = 0;
+        while (running) {
+            subject->CreateMessage("Msg ID: " + std::to_string(msg_count++));
+            std::this_thread::sleep_for(std::chrono::microseconds(10));
+        }
+    });
+
+    std::thread manager([&]() {
+        std::vector<Observer*> dynamic_observers;
+        while (running) {
+            Observer* obs = new Observer(*subject);
+            dynamic_observers.push_back(obs);
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+            // random detach
+            if (!dynamic_observers.empty()) {
+                Observer* to_remove = dynamic_observers.back();
+                to_remove->RemoveMeFromTheList();
+                dynamic_observers.pop_back();
+                delete to_remove; // caution! use-after-free in multi-thread scenario
+            }
+        }
+
+        for(auto o : dynamic_observers) delete o;
+    });
+
+    // stress test
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    running = false;
+
+    producer.join();
+    manager.join();
+    delete subject;
+}
+
 int main() {
-    ClientCode();
+    ClientCodeMultiThread();
     return 0;
 }
